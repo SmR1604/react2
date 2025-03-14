@@ -1,4 +1,3 @@
-/*
 import Comp2 from "./component/Comp2";
 import Comp1 from "./component/ui/Comp1";
 import { useState } from "react";
@@ -20,15 +19,14 @@ function App() {
 }
 
 export default App;
-*/
-import React from "react";
+
+/*import React from "react";
 import Emisor from "./component/ui/Componente_A";
 import Receptor from "./component/Componente_B";
 
 const App = () => {
   return (
     <div>
-      <h1>Comunicación con EventBus</h1>
       <Emisor />
       <Receptor />
     </div>
@@ -36,6 +34,7 @@ const App = () => {
 };
 
 export default App;
+*/
 /*
 import React from "react";
 import ComponentC from "./component/ui/Componente_C";

@@ -19,7 +19,7 @@ const Receptor = () => {
   return (
     <div>
       <h2>Componente Receptor</h2>
-      <p>Mensaje recibido: {mensaje}</p>
+      <h1>{mensaje}</h1>
     </div>
   );
 };
