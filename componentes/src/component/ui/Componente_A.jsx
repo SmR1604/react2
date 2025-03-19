@@ -4,7 +4,9 @@ import EventBus from "../../EventBus";
 const Emisor = () => {
   const enviarMensaje = () => {
     EventBus.dispatchEvent(
-      new CustomEvent("mensaje", { detail: "Hola desde Emisor" })
+      new CustomEvent("mensaje", {
+        detail: "Este es el mensaje desde el Emisor",
+      })
     );
   };
 
