@@ -1,3 +1,9 @@
 export function Square({ valor, onClickPlayer }) {
-  return <button onClick={onClickPlayer}> {valor}</button>;
+  const handleClick = () => {
+    if (valor === null) {
+      onClickPlayer();
+    }
+  };
+
+  return <button onClick={handleClick}> {valor}</button>;
 }
