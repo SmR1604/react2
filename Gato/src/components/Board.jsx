@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Square } from "./Square.jsx";
-
+// import PlayerList from "./PlayerList.jsx";
 function Board() {
   const [player, setPlayer] = useState("x");
   const [squares, setSquares] = useState(Array(9).fill(null));
+  // const players = ["Jugador 1", "Jugador 2"];
   function alterPlayer() {
     setPlayer(player === "x" ? "o" : "x");
   }
@@ -22,10 +23,13 @@ function Board() {
 
   function checkEndGame() {
     if (isWinner()) {
-      return "Winner: " + player;
+      alert("Ganador: " + player);
+      return "WINNER";
+      // return "Winner: " + player;
     }
     if (isEmpate()) {
-      return "Empate";
+      alert("Empate");
+      return "DRAW";
     }
     return "Turno de: " + player;
   }
@@ -58,6 +62,21 @@ function Board() {
       ) {
         return true;
       }
+    }
+    if (
+      //diagonales
+      squares[0] === squares[4] &&
+      squares[4] === squares[8] &&
+      squares[0] !== null
+    ) {
+      return true;
+    }
+    if (
+      squares[2] === squares[4] &&
+      squares[4] === squares[6] &&
+      squares[2] !== null
+    ) {
+      return true;
     }
 
     return false;
