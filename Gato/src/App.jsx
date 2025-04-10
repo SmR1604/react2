@@ -1,9 +1,10 @@
-import Board from "./components/Board";
+import GameManager from "./components/GameManager";
+
 function App() {
   return (
     <>
       <h1>Gato</h1>
-      <Board></Board>
+      <GameManager />
     </>
   );
 }

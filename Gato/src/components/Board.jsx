@@ -1,49 +1,48 @@
 import { useState } from "react";
 import { Square } from "./Square.jsx";
 
-function Board() {
-  const [player, setPlayer] = useState("x");
+function Board({ player, onTurnChange, playerNames }) {
   const [squares, setSquares] = useState(Array(9).fill(null));
-  const [history, setHistory] = useState([]); // Estado para el histórico de jugadas
+  const [history, setHistory] = useState([]);
 
-  function alterPlayer() {
-    setPlayer(player === "x" ? "o" : "x");
-  }
   function setSquare(index) {
-    squares[index] = player;
-    setSquares(squares);
+    // Prevenir sobreescritura
+    if (squares[index]) return;
+
+    const newSquares = [...squares];
+    newSquares[index] = player;
+    setSquares(newSquares);
     setHistory([...history, { player, position: index }]);
-    const state = checkEndGame();
+
+    const state = checkEndGame(newSquares);
 
     if (state == "WINNER") {
       console.log("Ganador: " + player);
     } else if (state == "DRAW") {
       console.log("Empate");
-    }
-    alterPlayer();
-  }
-
-  function checkEndGame() {
-    if (isWinner()) {
-      alert("Ganador: " + player);
-    } else if (isEmpate()) {
-      alert("Empataron");
     } else {
-      return "Turno de: " + player;
+      onTurnChange(); // Solo cambia turno si no se terminó el juego
     }
   }
 
-  function isEmpate() {
-    return !isWinner() && !isMoveAvailable();
+  function checkEndGame(squares) {
+    if (isWinner(squares)) {
+      alert("Ganador: " + playerNames[player]);
+      return "WINNER";
+    } else if (isEmpate(squares)) {
+      alert("Empataron");
+      return "DRAW";
+    }
+    return "CONTINUE";
   }
 
-  function isMoveAvailable() {
-    return squares.includes(null);
+  function isEmpate(squares) {
+    return !isWinner(squares) && !squares.includes(null);
   }
 
-  function isWinner() {
-    //verticales
-    for (var i = 0; i <= 6; i += 3) {
+  function isWinner(squares) {
+    // verticales
+    for (let i = 0; i <= 6; i += 3) {
       if (
         squares[i] === squares[i + 1] &&
         squares[i + 1] === squares[i + 2] &&
@@ -54,7 +53,7 @@ function Board() {
     }
 
     // horizontales
-    for (var j = 0; j < 3; j++) {
+    for (let j = 0; j < 3; j++) {
       if (
         squares[j] === squares[j + 3] &&
         squares[j + 3] === squares[j + 6] &&
@@ -64,7 +63,7 @@ function Board() {
       }
     }
 
-    //diagonales
+    // diagonales
     if (
       squares[0] === squares[4] &&
       squares[4] === squares[8] &&
@@ -83,29 +82,27 @@ function Board() {
 
     return false;
   }
+
   return (
     <>
       <h2>Turno de {player}</h2>
 
-      {squares.map((valor, index) => {
-        return (
-          <>
-            <Square
-              key={index}
-              valor={valor}
-              onClickPlayer={() => {
-                setSquare(index);
-              }}
-            ></Square>
-            {index % 3 === 2 ? <br /> : ""}
-          </>
-        );
-      })}
+      {squares.map((valor, index) => (
+        <>
+          <Square
+            key={index}
+            valor={valor}
+            onClickPlayer={() => setSquare(index)}
+          />
+          {index % 3 === 2 ? <br /> : ""}
+        </>
+      ))}
+
       <h3>Histórico de Jugadas:</h3>
       <ul>
         {history.map((move, index) => (
           <li key={index}>
-            Jugador {move.player} jugó en la posición {move.position}
+            Jugador {playerNames} jugó en la posición {move.position}
           </li>
         ))}
       </ul>
